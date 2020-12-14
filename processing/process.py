@@ -105,8 +105,8 @@ def carreras():
     jo = json.load(file)
     de = "data"
     id = 401
-    for i in range(0,len(jo.keys())):
-        
+    
+
     for key in jo.keys():
         jo[key] = de+str(id)
         id+=1
