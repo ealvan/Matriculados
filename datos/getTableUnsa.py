@@ -13,6 +13,8 @@ def make_data(url,name_,diccionario):
 		print('Something is not work :(')
 		sys.exit()
 	soup = bs4.BeautifulSoup(res.text,features='html.parser')
+	title = soup.find_all('center')[-1].text
+	
 	elems = soup.find_all('td')
 	#gatrassert elems != None,'This is None in elems'
 	#print(soup.prettify())
@@ -45,7 +47,7 @@ def make_data(url,name_,diccionario):
 		dic[cui]={"name":name,"group":group}		
 		index+=4
 
-	diccionario[name_] = dic
+	diccionario[title] = dic
 	
 	print('Escuela de %s'%(name_))
 	print('del grupo 1: %s'%(total_1))
@@ -77,7 +79,7 @@ content = pprint.pformat(diccionario)
 ##
 #
 #
-filejson = open('2020_B.json','w',encoding='utf-8')
+filejson = open('2020_B_version2.json','w',encoding='utf-8')
 filejson.write(simplejson.dumps(diccionario, indent=4, sort_keys=True))
 filejson.close()
 

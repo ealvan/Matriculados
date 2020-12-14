@@ -1,7 +1,7 @@
 import json
 import pprint
 import re
-fileData = open('../datos/2020_B.json', 'r', encoding='utf-8')
+fileData = open('../datos/2020_B_version2.json', 'r', encoding='utf-8')
 jsonDict = json.load(fileData)
 
 # imprimir por carrera
@@ -14,15 +14,13 @@ def printCarr(json_file):
 
 
 def getAlumnos(json_file, carrera):
-    alumnDict = json_file.get(carrera)
+    alumnDict = json_file.get(carrera.upper())
     if alumnDict:
         # lista de discionarios
         listAlumns = list(alumnDict.values())
         return listAlumns
     return None
 # obtener el numero de alumnos por escuela
-
-
 def getSize(json_file):
     carrs = json_file.keys()
     size = []
@@ -100,20 +98,8 @@ def getSuperStudents(jsonObject):
             st[key] = val
     return st
 
-def carreras():
-    file = open("../carreras.json","r",encoding='utf-8')
-    jo = json.load(file)
-    de = "data"
-    id = 401
-    
-
-    for key in jo.keys():
-        jo[key] = de+str(id)
-        id+=1
-    return jo
-
-pprint.pprint(carreras())
 
 
-#dato = getSuperStudents(jsonDict)
-#pprint.pprint(dato)
+
+dato = getAlumnos(jsonDict,"ARquitectura")
+pprint.pprint(dato)
