@@ -49,7 +49,7 @@ def make_data(url,name_,diccionario):
 
 	diccionario[title] = dic
 	
-	print('Escuela de %s'%(name_))
+	print('Escuela de %s'%(title))
 	print('del grupo 1: %s'%(total_1))
 	print('del grupo 2: %s'%(total_2))
 	print('del grupo 3: %s'%(total_3))
@@ -76,19 +76,11 @@ for item in codigos:
 
 content = pprint.pformat(diccionario)
 
-##
-#
-#
-filejson = open('2020_B_version2.json','w',encoding='utf-8')
+
+filejson = open('2020_B_version3.json','w',encoding='utf-8')
 filejson.write(simplejson.dumps(diccionario, indent=4, sort_keys=True))
 filejson.close()
 
-#
-#
-#
-#file = open('2020-B.txt','w')
-#file.write(content)
-#file.close()
 
 
 

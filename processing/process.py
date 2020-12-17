@@ -6,7 +6,6 @@ jsonDict = json.load(fileData)
 
 # imprimir por carrera
 
-
 def printCarr(json_file):
     for carr in jsonDict.keys():
         print(carr)
@@ -28,8 +27,6 @@ def getSize(json_file):
         size.append(len(getAlumnos(json_file, car)))
     return size
 # nos retorna "cui:cuantos tienen ese cui[4]" de todos los integrantes
-
-
 def getCuisAll(jsonObject):
     dictCuis = {}
     for value in jsonObject.values():
@@ -40,8 +37,6 @@ def getCuisAll(jsonObject):
                 dictCuis[cui[:4]] += 1
     return dictCuis
 # nos da "cui:cuantos tienen ese cui[4]" pero solo para la escuela
-
-
 def getCuisEsc(jsonObject, escuela):
     dictCuis = {}
     escDict = jsonObject.get(escuela)
@@ -53,8 +48,6 @@ def getCuisEsc(jsonObject, escuela):
                 dictCuis[cui[:4]] += 1
     return dictCuis
 # obtener cuantos hay del grupo 1,2,3 de toda la universidad
-
-
 def sizeGroup(jsonObject):
     sizeG = {}
     for cui in jsonObject.values():
@@ -97,8 +90,6 @@ def getSuperStudents(jsonObject):
         if val >= valD:
             st[key] = val
     return st
-
-
 
 
 dato = getAlumnos(jsonDict,"ARquitectura")
