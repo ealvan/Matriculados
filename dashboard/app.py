@@ -1,9 +1,6 @@
 import json
-import imp
-
-foo = imp.load_source('process.py', '../processing/process.py')
-
-
+import importlib
+import process
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -14,7 +11,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 fileData = open('../datos/2020_B_version2.json','r',encoding='utf-8')
 jsonDict = json.load(fileData)
 
-carreras = foo.getSize(jsonDict)
+carreras = process.getSize(jsonDict)
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -28,18 +25,22 @@ df = pd.DataFrame({
 fig = px.bar(df, x="carreras", y="alumnos", barmode="group")
 
 app.layout = html.Div(children=[
-    html.H1(children='Hello Dash'),
+    html.H1(children='Contabilzacion_por_Carreras'),
 
     html.Div(children='''
-        Dash: A web application FRAMEWORK for Python.
+        Carreras vs Numero de alumnos
     '''),
     dcc.Graph(
         id='example-graph',
         figure=fig
     ),
 ])
+def main():
+    if __name__ == '__main__':
+        app.run_server(debug=True)
+    else:
+        app.run_server(debug=True)
+main()
 
-if __name__ == '__main__':
-    app.run_server(debug=True)
 
     
