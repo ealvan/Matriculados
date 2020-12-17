@@ -6,7 +6,6 @@ def get_audio():
 	with sr.Microphone() as source:
 		audio = r.listen(source)
 		said = ""
-
 		try:
 			said = r.recognize_google(audio,language="es-ES")
 		except Exception as e:
