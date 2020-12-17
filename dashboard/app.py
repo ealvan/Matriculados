@@ -21,7 +21,7 @@ df = pd.DataFrame({
     "carreras": list(carreras.keys()),
     "alumnos": list(carreras.values()),
 })
-
+#
 fig = px.bar(df, x="carreras", y="alumnos", barmode="group")
 
 app.layout = html.Div(children=[
