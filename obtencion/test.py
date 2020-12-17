@@ -13,4 +13,5 @@ except:
 	sys.exit()
 soup = bs4.BeautifulSoup(res.text,features='html.parser')
 title = soup.find_all('center')
+
 print(title[-1].text)
