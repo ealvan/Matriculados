@@ -39,7 +39,7 @@ app.layout = html.Div([
     [Input(component_id='carrera', component_property='value')]
 )
 def update_graph(option_slctd):
-    dictCuis = process.getCuisEsc(jsonDict,str(option_slctd))
+    dictCuis = process.getCuisEsc(jsonDict,str(option_slctd),5)
     
     container = "La opcion que elegiste fue: {}".format(option_slctd)
     if dictCuis:
@@ -47,7 +47,6 @@ def update_graph(option_slctd):
             x=list(dictCuis.keys()),
             y=list(dictCuis.values()),
         )
-        
     return container, fig
 
 if __name__ == '__main__':

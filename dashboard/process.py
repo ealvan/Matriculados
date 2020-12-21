@@ -6,7 +6,6 @@ fileData = open('2020_B_version2.json', 'r', encoding='utf-8')
 jsonDict = json.load(fileData)
 
 # imprimir por carrera
-
 def printCarr(json_file):
     for carr in jsonDict.keys():
         print(carr)
@@ -38,8 +37,9 @@ def getCuisAll(jsonObject):
             else:
                 dictCuis[cui[:4]] += 1
     return dictCuis
+#******************************************************************
 # nos da "cui:cuantos tienen ese cui[4]" pero solo para la escuela
-def getCuisEsc(jsonObject, escuela):
+def getCuisEsc(jsonObject, escuela,margen):
     dictCuis = {}
     escDict = jsonObject.get(escuela)
     if escDict:
@@ -48,7 +48,14 @@ def getCuisEsc(jsonObject, escuela):
                 dictCuis[cui[:4]] = 1
             else:
                 dictCuis[cui[:4]] += 1
-    return dictCuis
+    cuis = {}
+    for cui1 in dictCuis:
+        if dictCuis[cui1] <= margen:
+            dictCuis[cui1] = None
+        else:
+            cuis.setdefault(cui1,dictCuis[cui1])
+    return cuis
+#******************************************************
 # obtener cuantos hay del grupo 1,2,3 de toda la universidad
 def sizeGroup(jsonObject):
     sizeG = {}
@@ -59,7 +66,7 @@ def sizeGroup(jsonObject):
             else:
                 sizeG[vals["group"]] += 1
     return sizeG
-#
+#***********************************
 # obtener el nombre mas comun de la universidad
 def comunName(jsonObject,margen):
     comunN = {}
@@ -93,6 +100,8 @@ def getSuperStudents(jsonObject):
             st[key] = val
     return st
 
+
+#
 
 
 
