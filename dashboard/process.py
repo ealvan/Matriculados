@@ -1,7 +1,8 @@
 import json
 import pprint
 import re
-fileData = open('../datos/2020_B_version2.json', 'r', encoding='utf-8')
+import pandas as pd
+fileData = open('2020_B_version2.json', 'r', encoding='utf-8')
 jsonDict = json.load(fileData)
 
 # imprimir por carrera
@@ -58,9 +59,9 @@ def sizeGroup(jsonObject):
             else:
                 sizeG[vals["group"]] += 1
     return sizeG
+#
 # obtener el nombre mas comun de la universidad
-def comunName(jsonObject):
-
+def comunName(jsonObject,margen):
     comunN = {}
     for cui in jsonObject.values():
         for vals in cui.values():
@@ -69,13 +70,13 @@ def comunName(jsonObject):
                 comunN[moList[-1]] = 1
             else:
                 comunN[moList[-1]] += 1
-    valD = 200
+    valD = margen
     dicN = {}
     for key,val  in comunN.items():
         if val > valD:
             dicN.setdefault(key,val)
     return dicN
-
+#********************************
 #obtener personas que tienen mas de una carrera
 def getSuperStudents(jsonObject):
     students = {}
@@ -93,5 +94,7 @@ def getSuperStudents(jsonObject):
     return st
 
 
-#dato = getSize(jsonDict)
-#pprint.pprint(dato)
+
+
+
+
