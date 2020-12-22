@@ -18,15 +18,19 @@ def getAlumnos(json_file, carrera):
         listAlumns = list(alumnDict.values())
         return listAlumns
     return None
-
+#****************************************************************
 # obtener el numero de alumnos por escuela
 def getSize(json_file):
     carreras = {}
     carrs = json_file.keys()
     for car in carrs:
         carreras.setdefault(car,len(getAlumnos(json_file, car)))
-    return carreras
-
+    carOrder = {}
+    sort_orders = sorted(carreras.items(), key=lambda x: x[1], reverse=True)
+    for i in sort_orders:
+        carOrder.setdefault(i[0],i[1])
+    return carOrder
+#******************************************************************
 # nos retorna "cui:cuantos tienen ese cui[4]" de todos los integrantes
 def getCuisAll(jsonObject):
     dictCuis = {}
@@ -101,7 +105,8 @@ def getSuperStudents(jsonObject):
     return st
 
 
-#
+
+
 
 
 

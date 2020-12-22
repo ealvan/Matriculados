@@ -8,21 +8,32 @@ import plotly.express as px
 
 df = pd.read_csv('estudiantes.csv')
 
-app = dash.Dash(__name__)
+
+app = dash.Dash(__name__)#init de application
 
 dataTable = dash_table.DataTable(
     id='table',
-    style_cell={
-        'minWidth':33,
-        'maxWitdh':33,
-        'width':33,
-    },
     columns=[{"name": i, "id": i} for i in df.columns],
     data=df.to_dict('records'),
     row_deletable=True,
     filter_action="native",
-    page_size=15
-    
+    page_size=15,
+    style_cell_conditional=[
+        {
+            'if': {'column_id': c},
+            'textAlign': 'left'
+        } for c in ['Date', 'Region']
+    ],
+    style_data_conditional=[
+        {
+            'if': {'row_index': 'odd'},
+            'backgroundColor': 'rgb(248, 248, 248)'
+        }
+    ],
+    style_header={
+        'backgroundColor': 'rgb(230, 230, 230)',
+        'fontWeight': 'bold'
+    }
 )
 
 app.layout = html.Div([
@@ -37,6 +48,8 @@ app.layout = html.Div([
     dcc.Graph(id="figGraph",figure= px.bar(
             x=['TOTAL de Alumnos de la UNSA con 1 carrera',"TOTAL de alumnos de la UNSA con 2 carreras"],
             y=[23265-240,240],
+            color_discrete_sequence=['#00FF7F','red'],
+
         )),
 ])
 

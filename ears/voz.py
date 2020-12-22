@@ -17,4 +17,5 @@ def speak(text):
 	engine = pyttsx3.init()
 	engine.say(text)
 	engine.runAndWait()
-print(speak("hola amigos!"))
+
+print(get_audio())
