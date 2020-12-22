@@ -8,7 +8,7 @@ import plotly.express as px
 import pandas as pd
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-fileData = open('../datos/2020_B_version2.json','r',encoding='utf-8')
+fileData = open('2020_B_version2.json','r',encoding='utf-8')
 jsonDict = json.load(fileData)
 
 carreras = process.getSize(jsonDict)
@@ -21,7 +21,8 @@ df = pd.DataFrame({
     "carreras": list(carreras.keys()),
     "alumnos": list(carreras.values()),
 })
-#
+
+
 fig = px.bar(df, x="carreras", y="alumnos", barmode="group")
 
 app.layout = html.Div(children=[
@@ -43,4 +44,3 @@ def main():
 main()
 
 
-    

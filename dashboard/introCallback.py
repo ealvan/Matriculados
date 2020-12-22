@@ -64,6 +64,8 @@ def update_graph(option_slctd,clicks):
             color=list(cuisAll.keys())[5:],
         )
     return (container, fig,fig1)
-    
-if __name__ == '__main__':
+
+def main():
     app.run_server(debug=True)
+if __name__ == '__main__':
+    main()

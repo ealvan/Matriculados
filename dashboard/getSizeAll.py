@@ -8,6 +8,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
 from dash.dependencies import Input, Output
+
+
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__,external_stylesheets=external_stylesheets)#init de application
 fileData = open('2020_B_version2.json','r',encoding='utf-8')
@@ -57,7 +59,8 @@ app.layout = html.Div([
             style={'width': "20%", 'height':"auto"}
             )
     ),
-    
 ])
-if __name__ == '__main__':
+def main():
     app.run_server(debug=True)
+if __name__ == '__main__':
+    main()

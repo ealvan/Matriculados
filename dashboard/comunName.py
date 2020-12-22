@@ -52,6 +52,7 @@ def update_graph(my_dropdown):
             )
     return (piechart)
 
-
-if __name__ == '__main__':
+def main():
     app.run_server(debug=True)
+if __name__ == '__main__':
+    main()

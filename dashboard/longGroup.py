@@ -30,6 +30,7 @@ app.layout = html.Div([
     ),
     html.Br(),
 ])
-
-if __name__ == '__main__':
+def main():
     app.run_server(debug=True)
+if __name__ == '__main__':
+    main()
