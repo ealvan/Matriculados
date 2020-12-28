@@ -1,3 +1,4 @@
+#Obtiene el nro de alumnos por escuela porfesional
 import pandas as pd
 import plotly.express as px  # (version 4.7.0)
 import plotly.graph_objects as go
@@ -61,6 +62,6 @@ app.layout = html.Div([
     ),
 ])
 def main():
-    app.run_server(debug=True)
-if __name__ == '__main__':
-    main()
+    app.run_server(debug=True,port=8054)
+
+main()

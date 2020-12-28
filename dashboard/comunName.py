@@ -1,3 +1,4 @@
+#los primeros nombres mas comunes de la universidad
 import pandas as pd
 import process
 import dash
@@ -53,6 +54,6 @@ def update_graph(my_dropdown):
     return (piechart)
 
 def main():
-    app.run_server(debug=True)
-if __name__ == '__main__':
-    main()
+    app.run_server(debug=True,port=8055)
+
+main()

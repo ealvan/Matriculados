@@ -1,4 +1,4 @@
-import pandas as pd
+#aqui se muestran a los estudiantes por su año de ingreso los primeors 4 digitos
 import plotly.express as px  # (version 4.7.0)
 import plotly.graph_objects as go
 import process
@@ -66,6 +66,6 @@ def update_graph(option_slctd,clicks):
     return (container, fig,fig1)
 
 def main():
-    app.run_server(debug=True)
-if __name__ == '__main__':
-    main()
+    app.run_server(debug=True,port=8053)
+
+main()

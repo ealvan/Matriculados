@@ -1,3 +1,4 @@
+#muestra a los estudiantes con mas de una carrera
 import dash
 import dash_table
 import pandas as pd
@@ -10,6 +11,7 @@ df = pd.read_csv('estudiantes.csv')
 
 
 app = dash.Dash(__name__)#init de application
+
 
 dataTable = dash_table.DataTable(
     id='table',
@@ -54,6 +56,6 @@ app.layout = html.Div([
 ])
 
 def main():
-    app.run_server(debug=True)
-if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True,port=8050)
+main()
+

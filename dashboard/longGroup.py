@@ -1,3 +1,4 @@
+#aqui se muestra la distibucion de los estudiantes por grupo en el que estan
 import pandas as pd
 import plotly.express as px  # (version 4.7.0)
 import plotly.graph_objects as go
@@ -31,6 +32,6 @@ app.layout = html.Div([
     html.Br(),
 ])
 def main():
-    app.run_server(debug=True)
-if __name__ == '__main__':
-    main()
+    app.run_server(debug=True,port=8052)
+
+main()

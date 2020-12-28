@@ -1,3 +1,4 @@
+#numero de estudiantes por escuela profesional
 import json
 import importlib
 import process
@@ -22,11 +23,10 @@ df = pd.DataFrame({
     "alumnos": list(carreras.values()),
 })
 
-
 fig = px.bar(df, x="carreras", y="alumnos", barmode="group")
 
 app.layout = html.Div(children=[
-    html.H1(children='Contabilzacion_por_Carreras'),
+    html.H1(children='Contabilzacion por Carreras'),
 
     html.Div(children='''
         Carreras vs Numero de alumnos
@@ -37,10 +37,7 @@ app.layout = html.Div(children=[
     ),
 ])
 def main():
-    if __name__ == '__main__':
-        app.run_server(debug=True)
-    else:
-        app.run_server(debug=True)
+    app.run_server(debug=True,port=8056)
 main()
 
 
