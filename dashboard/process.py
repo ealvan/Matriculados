@@ -92,18 +92,37 @@ def comunName(jsonObject,margen):
 #obtener personas que tienen mas de una carrera
 def getSuperStudents(jsonObject):
     students = {}
-    for cui in jsonObject.values():
-        for vals in cui.values():
-            if vals["name"] not in students:
-                students[vals["name"]] = 1
+    for car,carrera in jsonObject.items():
+        for cuiT,vals in carrera.items():
+            #son referencias, siempre copia,los diccionarios son objetos!!
+            aux = {"cuis": [] ,"groups": [],"count":0,"carreras":[]}
+            if vals["name"] not in students.keys():
+                aux["count"] = 1
+                aux["groups"].append(vals["group"])
+                aux["cuis"].append(str(cuiT))
+                aux["carreras"].append(str(car))
+                students[vals["name"]] = aux.copy()                
             else:
-                students[vals["name"]]+=1
-    st = {}
-    valD = 2
-    for key,val in students.items():
-        if val >= valD:
-            st[key] = val
-    return st
+                students[vals["name"]]["count"] += 1
+                students[vals["name"]]["groups"].append(vals["group"])
+                students[vals["name"]]["carreras"].append(str(car))
+                students[vals["name"]]["cuis"].append(str(cuiT))
+    office = {}
+    for k,v in students.items():
+        if v["count"] != 1:
+            office[k] = v
+    return office
+
+
+
+
+
+
+    
+
+
+
+
 
 
 
