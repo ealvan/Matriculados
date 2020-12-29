@@ -103,12 +103,6 @@ while True:
 
 
 
-#ejecutar la funcion y cerrar todas las demas
-
-    
-#cerrar la comunicacion
-
-
 
 
 
