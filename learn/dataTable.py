@@ -30,7 +30,7 @@ app.layout = html.Div([
             else {"name": i, "id": i, "deletable": True, "selectable": True}
             for i in df.columns
         ],
-        data=df.to_dict('records'),  # the contents of the table
+        data=df.to_dict('records'), # the contents of the table
         editable=True,              # allow editing of data inside all cells
         filter_action="native",     # allow filtering of data by user ('native') or not ('none')
         sort_action="native",       # enables data to be sorted per-column by user or not ('none')
