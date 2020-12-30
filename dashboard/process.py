@@ -88,7 +88,11 @@ def comunName(jsonObject,margen):
     for key,val  in comunN.items():
         if val > valD:
             dicN.setdefault(key,val)
-    return dicN
+    nameOrder = {}
+    sort_orders = sorted(dicN.items(), key=lambda x: x[1], reverse=True)
+    for i in sort_orders:
+        nameOrder.setdefault(i[0],i[1])    
+    return nameOrder
 def comunLastName(jsonObject,margen):
     comunN = {}
     for car in jsonObject.values():
@@ -108,12 +112,6 @@ def comunLastName(jsonObject,margen):
     for i in sort_orders:
         lastNameOrder.setdefault(i[0],i[1])
     return lastNameOrder
-
-
-
-
-
-
 
 #********************************
 #obtener personas que tienen mas de una carrera
