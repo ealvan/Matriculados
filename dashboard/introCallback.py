@@ -7,6 +7,7 @@ import dash  # (version 1.12.0) pip install dash
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objects as go
+import plotly.io as pio
 from dash.dependencies import Input, Output
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__,external_stylesheets=external_stylesheets)#init de application
@@ -67,7 +68,76 @@ app.layout = html.Div([
         ),
     ),
     dcc.Graph(id="newFig", figure = {}),
+    html.Div(
+        children=[
+            html.Div(
+                children=[
+                    dcc.Dropdown(
+                        id="drop1",
+                        options=[{'label':j,"value":j} for j in jsonDict.keys()],
+                        value="AGRONOMÍA",
+                        multi=False,
+                        style={'width':"60%"},
+                    ),
+                ]
+                ,className="six columns"),
+            html.Div(
+                children=[dcc.Dropdown(
+                        id="drop2",
+                        options=[{'label':j,"value":j} for j in jsonDict.keys()],
+                        value="AGRONOMÍA",
+                        multi=False,
+                        style={'width':"60%"},
+                    ),]               
+                ,className="six columns"), 
+        ],
+        className="row",
+        style={
+            'width':"80%",
+        }
+    ),
+    dcc.Graph(
+        id="twoDropsGraph",
+        
+    )
 ])
+@app.callback(
+    [Output(component_id='twoDropsGraph', component_property='figure'),],
+    [Input(component_id='drop1', component_property='value'),
+    Input(component_id="drop2",component_property='value'),]
+)
+def updateGraph(drop1,drop2):
+    dict1 = process.getCuisEsc(jsonDict,str(drop1),3)
+    dict2 =  process.getCuisEsc(jsonDict,str(drop2),3)
+
+    fig = go.Figure()
+    fig.add_trace(
+        go.Bar(
+            x=list(dict1.keys()),
+            y=list(dict1.values()),
+            name="Carrera {}".format(drop1),
+            marker_color='indianred',
+        ),
+    )
+    fig.add_trace(
+        go.Bar(
+            x=list(dict2.keys()),
+            y=list(dict2.values()),
+            name="Carrera {}".format(drop2),
+            marker_color='lightsalmon',
+
+        )
+    )
+    #fig.update_layout(barmode='group', xaxis_tickangle=-45)
+
+    return (fig,)
+    
+
+
+
+
+
+
 
 
 # ------------------------------------------------------------------------------
@@ -77,11 +147,8 @@ app.layout = html.Div([
      Output(component_id='figGraph', component_property='figure'),
      Output(component_id="newFig", component_property="figure")],
     [Input(component_id='carrera', component_property='value'),
-    
     Input(component_id="typeG",component_property='value'),
-    Input(component_id="typeA",component_property='value'),
-    
-    ]
+    Input(component_id="typeA",component_property='value'),]
 )
 def update_graph(option_slctd,optSltd,optGeneral):
     lista = ["lineChart","pieChart","barChart"]
@@ -153,6 +220,14 @@ def update_graph(option_slctd,optSltd,optGeneral):
     #        color=list(cuisAll.keys()),
     #    )
     return (container, figure1,fig1)
+
+
+
+
+
+
+
+
 
 def main():
     app.run_server(debug=True,port=8053)
