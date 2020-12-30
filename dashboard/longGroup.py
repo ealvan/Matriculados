@@ -22,6 +22,7 @@ app.layout = html.Div([
                 x=list(sizes.keys()),
                 y=list(sizes.values()),
                 color=list(sizes.keys()),
+                labels={'x':'GRUPOS DE LOS ESTUDIANTES','y':'NÙMERO DE ESTUDIANTES'}
             )),
             style={
                 'width':"50%",
