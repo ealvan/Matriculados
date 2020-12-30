@@ -113,18 +113,18 @@ def getSuperStudents(jsonObject):
             office[k] = v
     return office
 
-dict1 = getSuperStudents(jsonDict)
-
-str1 = ""
-#nombres carreras cuis grupos
-for k,v in dict1.items():
-    str1+=f"{k.replace(',','')},{'/'.join(v['carreras'])},{'/'.join(v['cuis'])},{'/'.join(v['groups'])} \n"
-
-print(str1)
-
-file1 = open('estudiantes3.csv','w',encoding='utf-8')
-file1.write(str1)
-file1.close()
+#dict1 = getSuperStudents(jsonDict)
+#
+#str1 = ""
+##nombres carreras cuis grupos
+#for k,v in dict1.items():
+#    str1+=f"{k.replace(',','')},{'/'.join(v['carreras'])},{'/'.join(v['cuis'])},{'/'.join(v['groups'])} \n"
+#
+#print(str1)
+#
+#file1 = open('estudiantes3.csv','w',encoding='utf-8')
+#file1.write(str1)
+#file1.close()
 
 
 
