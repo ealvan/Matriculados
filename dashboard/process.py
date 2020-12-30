@@ -3,6 +3,7 @@ import json
 import pprint
 import re
 import pandas as pd
+
 fileData = open('2020_B_version2.json', 'r', encoding='utf-8')
 jsonDict = json.load(fileData)
 
@@ -75,8 +76,8 @@ def sizeGroup(jsonObject):
 # obtener el nombre mas comun de la universidad
 def comunName(jsonObject,margen):
     comunN = {}
-    for cui in jsonObject.values():
-        for vals in cui.values():
+    for carrera in jsonObject.values():
+        for vals in carrera.values():
             moList =  re.split(r"\s",vals["name"])
             if  moList[-1] not in comunN:
                 comunN[moList[-1]] = 1
@@ -88,6 +89,32 @@ def comunName(jsonObject,margen):
         if val > valD:
             dicN.setdefault(key,val)
     return dicN
+def comunLastName(jsonObject,margen):
+    comunN = {}
+    for car in jsonObject.values():
+        for vals in car.values():
+            name =  re.split(r"/",vals["name"])[0]
+            if name not in comunN:
+                comunN[name] = 1
+            else:
+                comunN[name] +=1
+    comunOff = {}
+    
+    for k,v in comunN.items():
+        if v >= margen:
+            comunOff[k] = v
+    lastNameOrder = {}
+    sort_orders = sorted(comunOff.items(), key=lambda x: x[1], reverse=True)
+    for i in sort_orders:
+        lastNameOrder.setdefault(i[0],i[1])
+    return lastNameOrder
+
+
+
+
+
+
+
 #********************************
 #obtener personas que tienen mas de una carrera
 def getSuperStudents(jsonObject):
@@ -112,6 +139,35 @@ def getSuperStudents(jsonObject):
         if v["count"] != 1:
             office[k] = v
     return office
+
+
+#dict1 = comunLastName(jsonDict)
+#pprint.pprint(dict1)
+
+
+#file1 = open("escuelasSize.csv","r",encoding='utf-8')
+#str1 = ""
+#size = 0
+#for line in file1.readlines():
+#    
+#    try:
+#        size = int(line.split(',')[1].strip())
+#    except:
+#        print("exception number ")
+#    porcien = round(size/23265*100,2)
+#    str1+=line.strip()+","+str(porcien)+"\n"
+#file1.close()
+#
+#file2 = open("escuelasSizeOff.csv",'w',encoding='utf-8')
+#file2.write(str1)
+#file2.close()
+
+
+
+
+
+
+
 
 #dict1 = getSuperStudents(jsonDict)
 #

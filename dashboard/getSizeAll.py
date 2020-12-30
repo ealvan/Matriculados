@@ -17,7 +17,7 @@ fileData = open('2020_B_version2.json','r',encoding='utf-8')
 jsonDict = json.load(fileData)
 dic1 = process.getSize(jsonDict)
 
-df = pd.read_csv('escuelasSize.csv')
+df = pd.read_csv('escuelasSizeOff.csv')
 table  = dash_table.DataTable(
             data=df.to_dict('records'),
             columns=[{'id': c, 'name': c} for c in df.columns],
@@ -44,6 +44,7 @@ table  = dash_table.DataTable(
 app.layout = html.Div([
     html.H1("Numero de estudiantes por Escuela Profesional.", style={'text-align': 'center'}),
     html.H3(f"Tenemos {len(dic1.keys())} escuelas profesionales, la carrera mas elegida es la carrera de EDUCACIÒN"),
+
     html.Br(),
     dcc.Graph(id='figGraph', 
         figure=px.bar(
