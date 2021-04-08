@@ -4,8 +4,10 @@ import sys
 import re
 import pprint
 import simplejson
+import json
+from pprint import pprint as pp
 
-def make_data(url,name_,diccionario):
+def make_data(url,diccionario):
 	res = requests.get(url)
 	try:
 		res.raise_for_status()
@@ -13,77 +15,74 @@ def make_data(url,name_,diccionario):
 		print('Something is not work :(')
 		sys.exit()
 	soup = bs4.BeautifulSoup(res.text,features='html.parser')
-	title = soup.find_all('center')[-1].text
+	# Get title from web page-> nombre de la carrera
+	title = soup.find_all('h2')[1].center.text
+	alumnos = {}
+	uno = 0
+	dos = 0
+	tres = 0
+	# Obteniendo todos los datos de una mejor manera
+	rows = soup.select("table tr")[1:]
+	def getDataAlumno(row,uno,dos,tres):
+		rawData = row.find_all("td")
+		names = rawData[2].text.split(", ")
+		lastname = names[0].split("/")
+		data = {
+			"cui":rawData[1].text,
+			"names": names[1],
+			"lastnames": lastname,
+			"grupo": rawData[3].text,
+		}
+		if(data["grupo"] == "1"):
+			uno +=1
+		elif (data["grupo"] == "2"):
+			dos +=1
+		elif(data["grupo"] == "3"):
+			tres +=1
+		else:
+			print("Algo esta mal, revisa bien !!")
+			sys.exit()
+		
+		return (data,uno,dos,tres)
 	
-	elems = soup.find_all('td')
-	#gatrassert elems != None,'This is None in elems'
-	#print(soup.prettify())
-	index = 0
-	dic = {}
-	cui = ''
-	name = ''
-	group = ''
-	total_1 = 0
-	total_2 = 0
-	total_3 = 0
+	for row in rows:
+		fellow_dict,uno,dos,tres = getDataAlumno(row,uno,dos,tres)  
+		alumnos.setdefault(fellow_dict["cui"],fellow_dict)
+		
+	diccionario[title] = alumnos
+	print(f"Total de alumnos en {title} : {len(alumnos.keys())}")
+	print(f"Total Grupo 1: {uno}")
+	print(f"Total Grupo 2: {dos}")
+	print(f"Total Grupo 3: {tres}")
+	print("DONE!")
 	
-	while len(elems) > index+4:
-		cadena = ''
-		for i in range(len(elems[index:index+4])):
-			item = elems[index+i].get_text()
-			if i == 1:
-				cui = item
-			elif i == 2:
-				name = item 
-			elif i == 3:
-				group = item
-				g = int(group)
-				if g == 1:
-					total_1+=1
-				elif g == 2:
-					total_2+=1
-				else:
-					total_3+=1
-		dic[cui]={"name":name,"group":group}		
-		index+=4
+def main():
+	diccionario = {}
+	url_matricula = 'http://extranet.unsa.edu.pe/sisacad/visualiza_fechas_a.php'
+	res_general = requests.get(url_matricula)
+	try:
+		res_general.raise_for_status()
+	except:
+		print("NO disponible "+ url_matricula)
+		sys.exit()
+	soup = bs4.BeautifulSoup(res_general.text,features='html.parser')
+	url_basic = 'http://extranet.unsa.edu.pe/sisacad/ver_grupos_por_escuela.php?codescu='
+	rows = soup.select("table tr")
+	for row in rows:
+		if not row.findAll("td") or len(row.findAll("td")) < 4:
+			continue
+		url = row.findAll("td")[-1].a["href"] 
+		codeescu = re.search(r'(\d+)', url)
+		goto = url_basic + codeescu.group()
+		make_data(goto,diccionario)
 
-	diccionario[title] = dic
-	
-	print('Escuela de %s'%(title))
-	print('del grupo 1: %s'%(total_1))
-	print('del grupo 2: %s'%(total_2))
-	print('del grupo 3: %s'%(total_3))
-	print('Done!')
-
-codigos = []
-codigo_scuela = re.compile(r'codescu=(\d\d\d)')
-diccionario = {}
-res_general = requests.get('http://extranet.unsa.edu.pe/sisacad/visualiza_fechas_b.php')
-soup = bs4.BeautifulSoup(res_general.text,features='html.parser')
-urls_general = soup.find_all('a',href=True)
-for urls in urls_general:
-	mo = codigo_scuela.search(urls['href'])
-	if mo == None:
-		continue
-	if mo.group(1).isdecimal():
-		codigos.append(mo.group(1))
-
-url_basic = 'http://extranet.unsa.edu.pe/sisacad/ver_grupos_por_escuela.php?codescu='
-for item in codigos:
-	url = url_basic+str(item)
-	make_data(url,'data'+str(item),diccionario)
+	fileStore = open("2021-A.json","w",encoding="utf-8")
+	json.dump(diccionario,fileStore,indent=4,sort_keys=True)
+	fileStore.close()
 
 
-content = pprint.pformat(diccionario)
-
-
-filejson = open('2020_B_version3.json','w',encoding='utf-8')
-filejson.write(simplejson.dumps(diccionario, indent=4, sort_keys=True))
-filejson.close()
-
-
-
-
+if __name__ == "__main__":
+	main()
 
 
 
