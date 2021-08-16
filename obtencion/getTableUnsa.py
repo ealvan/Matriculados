@@ -10,7 +10,7 @@ def make_data(url,name_,diccionario):
 	try:
 		res.raise_for_status()
 	except:
-		print('Something is not work :(')
+		print('Something is not working :(')
 		sys.exit()
 	soup = bs4.BeautifulSoup(res.text,features='html.parser')
 	title = soup.find_all('center')[-1].text
@@ -58,7 +58,7 @@ def make_data(url,name_,diccionario):
 codigos = []
 codigo_scuela = re.compile(r'codescu=(\d\d\d)')
 diccionario = {}
-res_general = requests.get('http://extranet.unsa.edu.pe/sisacad/visualiza_fechas_b.php')
+res_general = requests.get('http://extranet.unsa.edu.pe/sisacad/visualiza_fechas_a.php')
 soup = bs4.BeautifulSoup(res_general.text,features='html.parser')
 urls_general = soup.find_all('a',href=True)
 for urls in urls_general:
@@ -77,8 +77,8 @@ for item in codigos:
 content = pprint.pformat(diccionario)
 
 
-filejson = open('2020_B_version3.json','w',encoding='utf-8')
-filejson.write(simplejson.dumps(diccionario, indent=4, sort_keys=True))
+filejson = open('2021_A.json','w',encoding='utf-8')
+filejson.write(simplejson.dumps(diccionario, indent=4, sort_keys=True, encoding='utf-8'))
 filejson.close()
 
 

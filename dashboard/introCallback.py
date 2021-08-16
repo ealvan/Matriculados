@@ -10,7 +10,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__,external_stylesheets=external_stylesheets)#init de application
-fileData = open('2020_B_version2.json','r',encoding='utf-8')
+fileData = open('2021_A.json','r',encoding='utf-8')
 jsonDict = json.load(fileData)
 
 app.layout = html.Div([
