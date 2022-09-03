@@ -5,15 +5,19 @@ import re
 import pprint
 import simplejson
 
+diccionario = {}
+codigos = []
+
+
 def make_data(url,name_,diccionario):
 	res = requests.get(url)
 	try:
 		res.raise_for_status()
 	except:
-		print('Something is not work :(')
+		print('Something is not working... :(')
 		sys.exit()
 	soup = bs4.BeautifulSoup(res.text,features='html.parser')
-	title = soup.find_all('center')[-1].text
+	title = soup.find_all('center')[-1].text+"_cod_"+name_
 	
 	elems = soup.find_all('td')
 	#gatrassert elems != None,'This is None in elems'
@@ -55,35 +59,38 @@ def make_data(url,name_,diccionario):
 	print('del grupo 3: %s'%(total_3))
 	print('Done!')
 
-codigos = []
-codigo_scuela = re.compile(r'codescu=(\d\d\d)')
-diccionario = {}
-res_general = requests.get('http://extranet.unsa.edu.pe/sisacad/visualiza_fechas_b.php')
-soup = bs4.BeautifulSoup(res_general.text,features='html.parser')
-urls_general = soup.find_all('a',href=True)
-for urls in urls_general:
-	mo = codigo_scuela.search(urls['href'])
-	if mo == None:
-		continue
-	if mo.group(1).isdecimal():
-		codigos.append(mo.group(1))
 
-url_basic = 'http://extranet.unsa.edu.pe/sisacad/ver_grupos_por_escuela.php?codescu='
-for item in codigos:
-	url = url_basic+str(item)
-	make_data(url,'data'+str(item),diccionario)
+def getSchoolCodes():
 
+	codigo_scuela = re.compile(r'codescu=(\d\d\d)')
+	res_general = requests.get('http://extranet.unsa.edu.pe/sisacad/visualiza_fechas_a.php')
+	soup = bs4.BeautifulSoup(res_general.text,features='html.parser')
+	urls_general = soup.find_all('a',href=True)
+	for urls in urls_general:
+		mo = codigo_scuela.search(urls['href'])
+		if mo == None:
+			continue
+		if mo.group(1).isdecimal():
+			codigos.append(mo.group(1))
 
-content = pprint.pformat(diccionario)
+def scrapStudentsperSchool():
+	url_basic = 'http://extranet.unsa.edu.pe/sisacad/ver_grupos_por_escuela.php?codescu='
+	for item in codigos:
+		url = url_basic+str(item)
+		make_data(url,str(item),diccionario)
 
+def saveFile(filename):
+	filejson = open(filename,'w',encoding='utf-8')
+	filejson.write(simplejson.dumps(diccionario, indent=4, sort_keys=True))
+	filejson.close()
 
-filejson = open('2020_B_version3.json','w',encoding='utf-8')
-filejson.write(simplejson.dumps(diccionario, indent=4, sort_keys=True))
-filejson.close()
+def main():
+	filename='2022_A.json'
+	getSchoolCodes()
+	pprint.pprint(codigos)
+	scrapStudentsperSchool()
+	# content = pprint.pformat(diccionario)
+	saveFile(filename)
 
-
-
-
-
-
-
+if __name__ == "__main__":
+	main()
